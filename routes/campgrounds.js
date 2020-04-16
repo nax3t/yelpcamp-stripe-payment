@@ -2,10 +2,11 @@ var express = require("express");
 var router  = express.Router();
 var Campground = require("../models/campground");
 var middleware = require("../middleware");
-
+router.use(middleware.isPaid);
 
 //INDEX - show all campgrounds
 router.get("/", function(req, res){
+    if (req.query.paid) res.locals.success = 'Account payment successful, welcome to YelpCamp!';
     // Get all campgrounds from DB
     Campground.find({}, function(err, allCampgrounds){
        if(err){

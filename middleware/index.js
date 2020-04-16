@@ -55,4 +55,15 @@ middlewareObj.isLoggedIn = function(req, res, next){
     res.redirect("/login");
 }
 
+middlewareObj.isPaid = function(req, res, next) {
+    if (['/login', '/register', '/signup-fee', ['/stripe-token']].includes(req.path)) return next();
+    if (!req.isAuthenticated()) {
+        req.flash("error", "You need to be logged in to do that");
+        return res.redirect("/login");
+    }
+    if (req.user.isPaid) return next();
+    req.flash('error', 'Signup fee required');
+    res.redirect('/signup-fee');
+}
+
 module.exports = middlewareObj;

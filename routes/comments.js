@@ -3,6 +3,7 @@ var router  = express.Router({mergeParams: true});
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
 var middleware = require("../middleware");
+router.use(middleware.isPaid);
 
 //Comments New
 router.get("/new",middleware.isLoggedIn, function(req, res){
